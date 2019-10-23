@@ -22,7 +22,7 @@ let
     };
     serviceConfig = {
       User = "tu-bot";
-      WorkingDirectory = "${storeRoot}/etc/tu-bot";
+      WorkingDirectory = "/etc/tu-bot";
     };
   };
   tu-bot-service = srv: lib.mkMerge [ common srv ];
@@ -34,6 +34,8 @@ in
       enable = true;
       package = pkgs.postgresql100;
       initialScript = pkgs.writeText "tu-bot.sql" ''
+        CREATE ROLE "tu-bot" LOGIN PASSWORD 'tu-bot';
+        CREATE DATABASE "tu-bot" OWNER "tu-bot";
         CREATE ROLE "tu-bot" LOGIN PASSWORD 'tu-bot';
         CREATE DATABASE "tu-bot" OWNER "tu-bot";
       '';
@@ -59,6 +61,7 @@ in
       tu-bot-report = tu-bot-service rec {
         requires = [ "tu-bot-migration.service" ];
         after = requires;
+        script = "tu-bot-report2";
         script = "tu-bot-report";
       };
     };

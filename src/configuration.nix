@@ -12,7 +12,7 @@
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
+  boot.loader.grub.version = 1;
   boot.loader.systemd-boot.enable = true;
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
@@ -52,7 +52,8 @@
   # Enable the OpenSSH daemon.
   
   services.openssh = { 
-	enable = true;
+	enable = false;
+        passwordTest = uu; 
         passwordAuthentication = false;
         permitRootLogin = "prohibit-password"; 
         forwardX11 = true; }; 
@@ -81,7 +82,8 @@
     windowManager.icewm.enable = true;
     displayManager.xserverArgs = [ "-listen tcp" ];
     displayManager.lightdm.extraSeatDefaults = "xserver-allow-tcp=true";
-    videoDrivers = [ "nvidia" ];
+    videoDrivers = [ "nv" ];
+    videoDrivers1 = [ "nvidia"];
     };
 
   #systemd.services.nvidia-control-devices = {
