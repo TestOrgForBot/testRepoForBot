@@ -5,10 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -25,22 +24,20 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   #Select internationalisation properties.
-   i18n = {
-     consoleFont = "Lat2-Terminus16";
-     consoleKeyMap = "ru";
-     defaultLocale = "en_US.UTF-8";
-   };
+  i18n = {
+    consoleFont = "Lat2-Terminus16";
+    consoleKeyMap = "ru";
+    defaultLocale = "en_US.UTF-8";
+  };
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-    environment.systemPackages = with pkgs; [
-       wget vim firefox cudatoolkit
-     ];
+  environment.systemPackages = with pkgs; [ wget vim firefox cudatoolkit ];
 
-  nixpkgs.config.allowUnfree = true; 
+  nixpkgs.config.allowUnfree = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.bash.enableCompletion = true;
@@ -50,15 +47,17 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  
-  services.openssh = { 
-	enable = false;
-        passwordTest = uu; 
-        passwordAuthentication = false;
-        permitRootLogin = "prohibit-password"; 
-        forwardX11 = true; }; 
-  users.users.root.openssh.authorizedKeys.keyFiles = ["/root/.ssh/id_rsa.pub"];
- # Open ports in the firewall.
+
+  services.openssh = {
+    enable = false;
+    passwordTest = uu;
+    passwordAuthentication = false;
+    permitRootLogin = "prohibit-password";
+    forwardX11 = true;
+  };
+  users.users.root.openssh.authorizedKeys.keyFiles =
+    [ "/root/.ssh/id_rsa.pub" ];
+  # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -76,15 +75,15 @@
     enable = true;
     layout = "us";
     enableTCP = true;
-#    displayManager.xdm.enable = true;
-#    desktopManager.plasma.enable = true;
+    #    displayManager.xdm.enable = true;
+    #    desktopManager.plasma.enable = true;
     displayManager.lightdm.enable = true;
     windowManager.icewm.enable = true;
     displayManager.xserverArgs = [ "-listen tcp" ];
     displayManager.lightdm.extraSeatDefaults = "xserver-allow-tcp=true";
     videoDrivers = [ "nv" ];
-    videoDrivers1 = [ "nvidia"];
-    };
+    videoDrivers1 = [ "nvidia" ];
+  };
 
   #systemd.services.nvidia-control-devices = {
   #  wantedBy = [ "multi-user.target" ];
@@ -145,13 +144,14 @@
   # servers. You should change this only after NixOS release notes say you
   # should. 
   nix = {
-    binaryCaches = [ "https://cache.nixos.org" "https://serokell.cachix.org"];
-    binaryCachePublicKeys = ["serokell.cachix.org-1:5DscEJD6c1dD1Mc/phTIbs13+iW22AVbx0HqiSb+Lq8="];
-    };
+    binaryCaches = [ "https://cache.nixos.org" "https://serokell.cachix.org" ];
+    binaryCachePublicKeys =
+      [ "serokell.cachix.org-1:5DscEJD6c1dD1Mc/phTIbs13+iW22AVbx0HqiSb+Lq8=" ];
+  };
   services.logind.extraConfig = "RuntimeDirectorySize = 50%";
   boot.devSize = "10%";
   boot.devShmSize = "30%";
-  swapDevices  = [{ device = "/dev/sdb5";}];
+  swapDevices = [{ device = "/dev/sdb5"; }];
   system.stateVersion = "19.03"; # Did you read the comment?
 }
 
